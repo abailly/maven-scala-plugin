@@ -105,11 +105,11 @@ abstract class ScalaMojoSupport extends AbstractMojo {
      * @parameter
      * <xmp>
      *    <compilerPlugins>
-     *       <dependency>
+     *       <compilerPlugin>
      *          <groupId>my.scala.plugin</groupId>
      *          <artifactId>amazingPlugin</artifactId>
      *          <version>1.0-SNAPSHOT</version>
-     *       </dependency>
+     *       </compilerPlugin>
      *    </compilerPlugins>
      * </xmp>
      */    
