@@ -24,11 +24,15 @@ public class ScalaMojoDescriptionExtractor implements MojoDescriptorExtractor {
 	 */
 	public List execute(MavenProject project, PluginDescriptor pluginDescriptor)
 			throws ExtractionException, InvalidPluginDescriptorException {
+		
+		System.err.println("Looking for Scala source roots...");
 		List<MojoDescriptor> mojoDescriptions = new ArrayList<MojoDescriptor>();
 		//TODO - parse through scala file and rip out MOJO annotations
 		
 		for(String root : (List<String>)project.getCompileSourceRoots()) {
-			for(String source : PluginUtils.findSources(root, "*.scala")) {
+			System.err.println("Looking in [" + root +"] for scala mojos...");
+			for(String source : PluginUtils.findSources(root, "**/*.scala")) {
+				System.err.println("Checking source [" + source +"] as mojo");
 				MojoDescriptor tmp = extractMojoDescription(source, project, pluginDescriptor);
 				if(tmp != null) {
 					mojoDescriptions.add(tmp);
@@ -47,8 +51,17 @@ public class ScalaMojoDescriptionExtractor implements MojoDescriptorExtractor {
 	private MojoDescriptor extractMojoDescription(String source, MavenProject project,
 			PluginDescriptor pluginDescriptor) {
 		MojoDescriptor descriptor = new MojoDescriptor();
+		descriptor.setPluginDescriptor(pluginDescriptor);
 		//For now let's use a lame algorithm just to test to see if this will work.
-		return null;
+		descriptor.setDescription("Testing Scala extraction mojo");
+		descriptor.setGoal(source);
+		descriptor.setPhase("");
+		descriptor.setLanguage("scala");
+		descriptor.setComponentConfigurator("scala");
+		descriptor.setVersion(project.getModelVersion());
+		descriptor.setImplementation(source);
+		System.err.println("Analyzing: " + source);		
+		return descriptor;
 	}
 	
 }

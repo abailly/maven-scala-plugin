@@ -36,6 +36,9 @@ public class AddSourceMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
     	try {
 	    	if (sourceDir != null) {
+	    		if(!sourceDir.exists()) {
+	    			sourceDir.mkdirs();
+	    		}
 	        	String path = sourceDir.getCanonicalPath();
 	        	if (!project.getCompileSourceRoots().contains(path)) {
 	        		getLog().info("Add Source directory: " + path);
@@ -43,6 +46,9 @@ public class AddSourceMojo extends AbstractMojo {
 	        	}
 			}
 	    	if (testSourceDir != null) {
+	    		if(!testSourceDir.exists()) {
+	    			testSourceDir.mkdirs();
+	    		}
 	        	String path = testSourceDir.getCanonicalPath();
 	        	if (!project.getTestCompileSourceRoots().contains(path)) {
 	        		getLog().info("Add Test Source directory: " + path);
