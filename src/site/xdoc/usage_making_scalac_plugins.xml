@@ -86,21 +86,9 @@ project-root/
     <section name="Using a scalac plugin">
     	<p>To make use of one or more scalac plugins, you need to declare them inside your pom using the "compilerPlugins" configuration item.</p>
       <source><![CDATA[
-			<plugin>
-				<groupId>org.scala-tools</groupId>
-				<artifactId>maven-scala-plugin</artifactId>
-				...
-				<configuration>
-					...
-					<compilerPlugins>
-						<compilerPlugin>
-							<groupId>org.scala-lang</groupId>
-							<artifactId>my-scalac-plugin</artifactId>
-							<version>1.0-SNAPSHOT</version>
-						</compilerPlugin>
-					</compilerPlugins>
-				</configuration>
-			</plugin>]]>
+			
+
+]]>
       </source>
       <p>If you need to send arguments to the plugin, this can be done with the "args" confguration tag.</p>
     </section>
