@@ -51,15 +51,18 @@ public class ScalaMojoDescriptionExtractor implements MojoDescriptorExtractor {
 	private MojoDescriptor extractMojoDescription(String source, MavenProject project,
 			PluginDescriptor pluginDescriptor) {
 		MojoDescriptor descriptor = new MojoDescriptor();
+		//TODO - Pull this from inside the .scala file.
 		descriptor.setPluginDescriptor(pluginDescriptor);
 		//For now let's use a lame algorithm just to test to see if this will work.
 		descriptor.setDescription("Testing Scala extraction mojo");
-		descriptor.setGoal(source);
-		descriptor.setPhase("");
+		descriptor.setGoal("echo");
+		descriptor.setExecuteGoal("echo");
+		descriptor.setExecutePhase("process-sources");
+		descriptor.setPhase("process-sources");
 		descriptor.setLanguage("scala");
 		descriptor.setComponentConfigurator("scala");
 		descriptor.setVersion(project.getModelVersion());
-		descriptor.setImplementation(source);
+		descriptor.setImplementation("org.scala_tools.mojo.TestMojo");
 		System.err.println("Analyzing: " + source);		
 		return descriptor;
 	}

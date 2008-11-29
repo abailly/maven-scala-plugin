@@ -1,7 +1,8 @@
 package org.scala_tools.maven.plexus.converters;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 /**
  * Test for Scala Reflection Utilities class.
  * @author J. Suereth
