@@ -75,7 +75,7 @@ class ScalaConfigurationConverter extends AbstractConfigurationConverter {
 		//TODO - Inject into component the configuration properties.
 		val items = configuration.getChildCount();
 		System.err.println("Processing Configuration for child elements");
-        for (  i <- 0 to items ) {
+        for (  i <- 0 until items ) {
             val childConfiguration = configuration.getChild( i );
 
             val elementName = childConfiguration.getName();
@@ -93,8 +93,9 @@ class ScalaConfigurationConverter extends AbstractConfigurationConverter {
  * This class is responsible for injecting dependencies into a component for a given "var"
  */
 class ScalaVarSetter(fieldName : String, obj : AnyRef, lookup : ConverterLookup, listener : ConfigurationListener) {
-    //TODO - Look up type of "var" field on scala class.
-	val setterParamType = classOf[String]
+    //TODO - Handle errors!
+    import converters.ReflectionUtil._
+	val setterParamType = getVarType(obj, fieldName).get
     val setterTypeConverter = lookup.lookupConverterForType( setterParamType );
 	def configure( config : PlexusConfiguration , cl : ClassLoader , evaluator : ExpressionEvaluator  ) {
 	   val value = setterTypeConverter.fromConfiguration( lookup, config, setterParamType, obj.getClass(), cl,

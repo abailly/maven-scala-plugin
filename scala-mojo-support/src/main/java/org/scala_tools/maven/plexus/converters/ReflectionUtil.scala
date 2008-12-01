@@ -41,12 +41,13 @@ object ReflectionUtil {
 	 * @throws IllegalArgumentException
 	 *          This is thrown if any error occurs (i.e. invalid inputs...)
 	 */
-  def injectIntoVar[A <: AnyRef](obj : AnyRef, varName : String, value : A)(implicit manifest : scala.reflect.Manifest[A]) {
+  def injectIntoVar[A <: AnyRef](obj : AnyRef, varName : String, value : A) {
     getVarSetMethod(obj, varName) match {
       case Some(method) =>
         val varType = method.getParameterTypes.first
-        if(!varType.isAssignableFrom(manifest.erasure)) {
-          throw new IllegalArgumentException("Can not coerce: " + manifest.erasure + " into a " + varType);
+        val realClass = value.getClass
+        if(!varType.isAssignableFrom(realClass)) {
+          throw new IllegalArgumentException("Can not coerce: " + realClass + " into a " + varType);
         }
         //TODO - Handle boxing/unboxing...
         method.invoke(obj, value);
