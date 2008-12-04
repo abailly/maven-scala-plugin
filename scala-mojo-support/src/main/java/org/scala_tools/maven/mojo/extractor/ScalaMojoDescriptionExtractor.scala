@@ -25,6 +25,7 @@ class ScalaMojoDescriptionExtractor extends MojoDescriptorExtractor {
 		//TODO - parse through scala file and rip out MOJO annotations
 		val mojoDescriptions : Seq[MojoDescriptor]= for {
 		  root <- project.getCompileSourceRoots().asInstanceOf[java.util.List[String]]
+          if new java.io.File(root).isDirectory
           source <- PluginUtils.findSources(root, "**/*.scala")
 		} yield extractMojoDescription(source, project, pluginDescriptor)
 
