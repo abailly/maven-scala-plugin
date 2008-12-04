@@ -100,29 +100,6 @@ abstract class ScalaMojoSupport extends AbstractMojo {
     protected BasicArtifact[] dependencies;
 
     /**
-     * Compiler plugin dependencies to use when compiling.
-     * ex:
-     * @parameter
-     * <xmp>
-     *    <compilerPlugins>
-     *       <compilerPlugin>
-     *          <groupId>my.scala.plugin</groupId>
-     *          <artifactId>amazingPlugin</artifactId>
-     *          <version>1.0-SNAPSHOT</version>
-     *       </compilerPlugin>
-     *    </compilerPlugins>
-     * </xmp>
-     */    
-    protected BasicArtifact[] compilerPlugins;
-    //TODO - Use this instead of above, if possible...
-//    /**
-//     * @parameter expression="${plugin.artifacts}"
-//     * @readonly
-//     * @since 1.1-beta-1
-//     */
-//    private List pluginDependencies;
-    
-    /**
      * Jvm Arguments.
      *
      * @parameter
@@ -270,12 +247,12 @@ abstract class ScalaMojoSupport extends AbstractMojo {
             throw new MojoFailureException("no scalaVersion detected or set");
         }
     }
+    
     protected abstract void doExecute() throws Exception;
 
     protected JavaCommand getScalaCommand() throws Exception {
         JavaCommand cmd = getEmptyScalaCommand(scalaClassName);
         cmd.addArgs(args);
-        addCompilerPluginOptions(cmd);
         cmd.addJvmArgs(jvmArgs);
         return cmd;
     }
@@ -298,36 +275,19 @@ abstract class ScalaMojoSupport extends AbstractMojo {
         }
         return JavaCommand.toMultiPath(classpath.toArray(new String[classpath.size()]));
     }
-    
-    private void addCompilerPluginOptions(JavaCommand scalac) throws Exception {
-    	for(String plugin : getCompilerPlugins()) {
-    		scalac.addArgs("-Xplugin", plugin);
-    	}
-    }
-    
-    private Set<String> getCompilerPlugins() throws Exception {
-    	Set<String> plugins = new HashSet<String>();
-    	if(compilerPlugins != null) {
-    		Set<String> ignoreClasspath = new HashSet<String>();
-    		 addToClasspath(SCALA_GROUPID, "scala-compiler", scalaVersion, ignoreClasspath);
-    		 addToClasspath(SCALA_GROUPID, SCALA_LIBRARY_ARTIFACTID, scalaVersion, ignoreClasspath);   		
-    		
-    		for(BasicArtifact artifact : compilerPlugins) {
-    			Set<String> pluginClassPath = new HashSet<String>();
-    			addToClasspath(artifact.groupId, artifact.artifactId, artifact.version, pluginClassPath);
-    			//TODO - Ensure only one item on classpath, or that we pull the *CORRECT* item.
-    			pluginClassPath.removeAll(ignoreClasspath);
-    			plugins.add(pluginClassPath.iterator().next());
-    		}
-    	}
-    	
-    	return plugins;
-    }
 
     private String getBootClasspath() throws Exception {
         Set<String> classpath = new HashSet<String>();
         addToClasspath(SCALA_GROUPID, SCALA_LIBRARY_ARTIFACTID, scalaVersion, classpath);
         return JavaCommand.toMultiPath(classpath.toArray(new String[classpath.size()]));
     }
+
+	/**
+     * @return
+     *           This returns whether or not the scala version can support having java sent into the compiler
+     */
+	protected boolean isJavaSupportedByCompiler() {
+		return new VersionNumber(scalaVersion).compareTo(new VersionNumber("2.7.2")) >= 0;
+	}
 
 }
