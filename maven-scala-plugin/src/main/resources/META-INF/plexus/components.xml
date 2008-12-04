@@ -1,9 +1,4 @@
 <component-set>
   <components>
-    <component>
-      <role>org.apache.maven.tools.plugin.extractor.MojoDescriptorExtractor</role>
-      <implementation>org.scala_tools.maven.mojo.extractor.ScalaMojoDescriptionExtractor</implementation>
-      <role-hint>scala</role-hint>
-    </component>
   </components>
 </component-set>

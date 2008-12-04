@@ -90,7 +90,13 @@ class ScalaConfigurationConverter extends AbstractConfigurationConverter {
 }
 
 /**
- * This class is responsible for injecting dependencies into a component for a given "var"
+ * This class is responsible for injecting dependencies into a component for a given "var".
+ * 
+ * In its constructor, it attempts to grab the "var" from the given "obj".  It will then try to find a "converter"
+ * that will convert configuration into the required type for the "var".
+ * 
+ * If any of the above fails, an exception is thrown.
+ * 
  */
 class ScalaVarSetter(fieldName : String, obj : AnyRef, lookup : ConverterLookup, listener : ConfigurationListener) {
     //TODO - Handle errors!

@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.apache.maven.plugin.descriptor.InvalidPluginDescriptorException;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
+import org.apache.maven.plugin.descriptor.Parameter;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.tools.plugin.extractor.ExtractionException;
 import org.apache.maven.tools.plugin.extractor.MojoDescriptorExtractor;
 import org.apache.maven.tools.plugin.util.PluginUtils;
+import org.codehaus.plexus.configuration.PlexusConfiguration;
 
 
 /**
@@ -50,6 +52,7 @@ public class ScalaMojoDescriptionExtractor implements MojoDescriptorExtractor {
 	 */
 	private MojoDescriptor extractMojoDescription(String source, MavenProject project,
 			PluginDescriptor pluginDescriptor) {
+		try {
 		MojoDescriptor descriptor = new MojoDescriptor();
 		//TODO - Pull this from inside the .scala file.
 		descriptor.setPluginDescriptor(pluginDescriptor);
@@ -63,8 +66,19 @@ public class ScalaMojoDescriptionExtractor implements MojoDescriptorExtractor {
 		descriptor.setComponentConfigurator("scala");
 		descriptor.setVersion(project.getModelVersion());
 		descriptor.setImplementation("org.scala_tools.mojo.TestMojo");
+
+		
+		Parameter parameter = new Parameter();
+		parameter.setName("outputDirectory");
+		parameter.setExpression("${project.build.directory}");
+		parameter.setType("java.io.File");
+		parameter.setRequired(true);		
+		descriptor.addParameter(parameter);
 		System.err.println("Analyzing: " + source);		
 		return descriptor;
+		} catch(Exception e) {
+			return null;
+		}
 	}
 	
 }
