@@ -89,7 +89,25 @@
   </reporting>
   <build>
   	<plugins>      
-      <plugin>
+   <plugin>
+    <groupId>org.codehaus.plexus</groupId>
+    <artifactId>plexus-maven-plugin</artifactId>
+    <version>1.3.8</version>
+    <executions>
+     <execution>
+      <id>make-desc</id>
+      <phase>process-sources</phase>
+      <goals>
+       <goal>descriptor</goal>
+      </goals>
+     <configuration>
+      <outputDirectory>${project.build.directory}/plexus</outputDirectory>
+     </configuration>
+     </execution>
+    </executions>
+   </plugin>
+
+   <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>shitty-maven-plugin</artifactId>
           <executions>
