@@ -44,8 +44,8 @@ public class ScalaCompileMojo extends ScalaCompilerSupport {
     	List<String> sources = project.getCompileSourceRoots();
     	//Quick fix in case the user has not added the "add-source" goal.
     	String scalaSourceDir = sourceDir.getCanonicalPath();
-		if(!sources.contains(scalaSourceDir)) {
-    		sources.add(scalaSourceDir);
+        if(!sources.contains(scalaSourceDir)) {
+            sources.add(scalaSourceDir);
     	}
     	return sources;
     }
