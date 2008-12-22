@@ -27,17 +27,7 @@
     </links>
     <menu name="Overview">
       <item name="Introduction" href="index.html" />
-      <item name="Goals" href="plugin-info.html" />
-      <item name="Usage" href="usage.html" />
-    </menu>
-    <menu name="Examples">
-      <item name="Compiling" href="usage_compile.html" />
-      <item name="Continuous Compilation" href="usage_cc.html" />
-      <item name="Scaladoc" href="usage_doc.html" />
-      <item name="Running" href="usage_run.html" />
-      <item name="Scripting" href="usage_script.html" />
-      <item name="Scala Console" href="usage_console.html" />
-      <item name="Mixed Java/Scala Projects" href="usage_java.html" />
+      <item name="Creating Scala Mojos" href="usage.html" />
     </menu>
     <menu ref="reports" />
     <menu ref="modules" />
