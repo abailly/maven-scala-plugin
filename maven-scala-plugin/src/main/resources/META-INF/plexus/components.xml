@@ -1,4 +1,66 @@
 <component-set>
   <components>
+    
+    <component>
+      <role>
+	org.apache.maven.artifact.handler.ArtifactHandler
+      </role>
+      <role-hint>scala</role-hint>
+      <implementation>
+	org.apache.maven.artifact.handler.DefaultArtifactHandler
+      </implementation>
+      <configuration>
+	<type>scala</type>
+	<extension>jar</extension>
+	<language>scala</language>
+      </configuration>
+    </component>
+    
+    <component>
+      <role>
+	org.apache.maven.lifecycle.mapping.LifecycleMapping
+      </role>
+      <role-hint>scala</role-hint>
+      <implementation>
+	org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping
+      </implementation>
+      <configuration>
+	<phases>
+	  <process-resources>
+	    org.apache.maven.plugins:maven-resources-plugin:resources
+	  </process-resources>
+	  <process-sources>
+	    org.scala-tools:maven-scala-plugin:add-source
+	  </process-sources>
+	  <compile>
+	    org.scala-tools:maven-scala-plugin:compile
+	  </compile>
+	  <process-classes>
+	    org.apache.maven.plugins:maven-compiler-plugin:compile
+	  </process-classes>
+	  <process-test-resources>
+	    org.apache.maven.plugins:maven-resources-plugin:testResources
+	  </process-test-resources>
+	  <test-compile>
+	    org.scala-tools:maven-scala-plugin:testCompile
+	  </test-compile>
+	  <process-test-classes>
+	    org.apache.maven.plugins:maven-compiler-plugin:testCompile
+	  </process-test-classes>
+	  <test>
+	    org.apache.maven.plugins:maven-surefire-plugin:test
+	  </test>
+	  <package>
+	    org.apache.maven.plugins:maven-jar-plugin:jar
+	  </package>
+	  <install>
+	    org.apache.maven.plugins:maven-install-plugin:install
+	  </install>
+	  <deploy>
+	    org.apache.maven.plugins:maven-deploy-plugin:deploy
+	  </deploy>
+	</phases>
+      </configuration>
+    </component>
   </components>
 </component-set>
